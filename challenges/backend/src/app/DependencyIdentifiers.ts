@@ -1,3 +1,5 @@
 export const DependencyIdentifier = {
-    LOGGER: "logger"
+  LOGGER: "logger",
+  AUTHENTICATION: "authentication",
+  HTTPClient: "axiosClient",
 };
