@@ -7,15 +7,6 @@ import env from "env-var";
 import axios, { AxiosError } from "axios";
 @injectable()
 export class AuctionMonitorApp {
-<<<<<<< HEAD
-  public constructor(
-    @inject(DependencyIdentifier.LOGGER) private logger: ILogger
-  ) {}
-
-  public async start(): Promise<void> {
-    this.logger.log(`Auction Monitor started.`);
-    // TODO: Retrieve auctions and display aggregated information (see README.md)
-=======
   private _authentication: IAuthentication;
   public constructor(
     @inject(DependencyIdentifier.LOGGER) private logger: ILogger,
@@ -48,6 +39,5 @@ export class AuctionMonitorApp {
         );
       }
     }
->>>>>>> authentication_service
   }
 }
