@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { HTTPRequest, IHTTPClient } from "../interface";
 import axios, { AxiosError, AxiosInstance } from "axios";
+=======
+import { HTTPRequest, IHTTPClient, HTTPResponse } from "../interface";
+import axios, { AxiosInstance } from "axios";
+>>>>>>> authentication_service
 import { injectable } from "inversify";
 import "reflect-metadata";
 @injectable()
@@ -12,6 +17,7 @@ class AxiosClientImpl implements IHTTPClient {
       headers: { "Content-Type": "application/json" },
     });
   }
+<<<<<<< HEAD
   async put<R, T>(request: HTTPRequest<T>): Promise<R> {
     try {
       const { body, endpoint } = request;
@@ -27,6 +33,15 @@ class AxiosClientImpl implements IHTTPClient {
       console.log("To aqui");
       throw new Error("error");
     }
+=======
+  async put<R, T>(request: HTTPRequest<T>): Promise<HTTPResponse<R>> {
+    const { body, endpoint } = request;
+    const { status, data } = await this.axios.put(endpoint, body);
+    return {
+      statusCode: status,
+      data,
+    };
+>>>>>>> authentication_service
   }
 }
 export { AxiosClientImpl };

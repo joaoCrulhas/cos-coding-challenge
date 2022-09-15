@@ -1,6 +1,10 @@
 import assert from "assert";
 import sinon from "sinon";
 import { HTTPRequest, IHTTPClient } from "../../../utils/HttpClient/interface";
+<<<<<<< HEAD
+=======
+import { ILogger } from "../../Logger/interface/ILogger";
+>>>>>>> authentication_service
 import { IAuthentication } from "../interface/IAuthentication";
 import { Authentication } from "./Authentication";
 
@@ -10,6 +14,15 @@ class HttpClientStub implements IHTTPClient {
   }
 }
 
+<<<<<<< HEAD
+=======
+class LoggerStub implements ILogger {
+  log(message: string): void {
+    console.log(message);
+  }
+}
+
+>>>>>>> authentication_service
 const makeHttpClientStub = () => {
   const httpClient = new HttpClientStub();
   return {
@@ -21,7 +34,12 @@ const makeSut = (): {
   httpClient: IHTTPClient;
 } => {
   const { httpClient } = makeHttpClientStub();
+<<<<<<< HEAD
   const sut = new Authentication(httpClient);
+=======
+  const logStub = new LoggerStub();
+  const sut = new Authentication(() => httpClient, logStub);
+>>>>>>> authentication_service
   return {
     httpClient,
     sut,
@@ -58,6 +76,7 @@ describe("Authentication Service", () => {
   it("Should return an authenticated user if the request to create a token happened successfully", async () => {
     const { sut, httpClient } = makeSut();
     sinon.stub(httpClient, "put").resolves({
+<<<<<<< HEAD
       token: "token",
       authenticated: true,
       userId: "buyer-challenge@caronsale.de",
@@ -65,6 +84,18 @@ describe("Authentication Service", () => {
       internalUserUUID: "054d4577-69a0-4e4b-8e5e-975bcf8c62c7",
       type: 1,
       privileges: "{SALESMAN_USER}",
+=======
+      statusCode: 201,
+      data: {
+        token: "token",
+        authenticated: true,
+        userId: "buyer-challenge@caronsale.de",
+        internalUserId: 2324,
+        internalUserUUID: "054d4577-69a0-4e4b-8e5e-975bcf8c62c7",
+        type: "1",
+        privileges: "{SALESMAN_USER}",
+      },
+>>>>>>> authentication_service
     });
     const response = await sut.authentication({
       email: "userMailTest@gmail.com",
@@ -76,7 +107,11 @@ describe("Authentication Service", () => {
       userId: "buyer-challenge@caronsale.de",
       internalUserId: 2324,
       internalUserUUID: "054d4577-69a0-4e4b-8e5e-975bcf8c62c7",
+<<<<<<< HEAD
       type: 1,
+=======
+      type: "1",
+>>>>>>> authentication_service
       privileges: "{SALESMAN_USER}",
     });
   });
