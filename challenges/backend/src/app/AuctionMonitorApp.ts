@@ -32,12 +32,8 @@ export class AuctionMonitorApp {
         }`
       );
       const auctions = await this.carOnSaleClient.getRunningAuctions({
-        endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-        headers: {
-          accept: "application/json",
-          authtoken: token,
-          userid: userId,
-        },
+        authtoken: token,
+        userid: userId,
       });
       console.log(auctions);
       process.exit(0);

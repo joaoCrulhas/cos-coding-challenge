@@ -44,16 +44,16 @@ describe("CarOnSaleClientApi", () => {
     process.env.COS_USEREMAIL = "test@gmail.com";
   });
   it("Should execute the httpClient at least once", async () => {
-    const userId = env.get("COS_USEREMAIL").required().asString();
-    const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-    };
+    const userid = env.get("COS_USEREMAIL").required().asString();
     const { sut, httpClient } = makeSut();
     const spy = Sinon.stub(httpClient, "get").resolves({
       statusCode: 200,
       data: auctionResponse,
     });
-    await sut.getRunningAuctions(request);
+    await sut.getRunningAuctions({
+      authtoken: "authToken",
+      userid,
+    });
     Sinon.assert.calledOnce(spy);
   });
   it("Should execute the httpClient with correct arguments", async () => {
@@ -62,12 +62,22 @@ describe("CarOnSaleClientApi", () => {
       statusCode: 200,
       data: auctionResponse,
     });
-    const userId = env.get("COS_USEREMAIL").required().asString();
-    const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-    };
-    await sut.getRunningAuctions(request);
-    Sinon.assert.calledWith(spy, request);
+    const userid = env.get("COS_USEREMAIL").required().asString();
+    await sut.getRunningAuctions({
+      authtoken: "authToken",
+      userid,
+    });
+    Sinon.assert.calledWith(
+      spy,
+      Sinon.match({
+        endpoint: `api/v1/auction/salesman/${userid}/_all/bidding-data`,
+        headers: {
+          accept: "application/json",
+          authtoken: "authToken",
+          userid,
+        },
+      })
+    );
   });
   it("Should execute with correct arguments if the new user is provided instead a env var user", async () => {
     const { sut, httpClient } = makeSut();
@@ -75,12 +85,16 @@ describe("CarOnSaleClientApi", () => {
       statusCode: 200,
       data: auctionResponse,
     });
-    const userId = "teste2@gmail.com";
-    const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-    };
-    await sut.getRunningAuctions(request);
-    Sinon.assert.calledWith(spy, request);
+    const userid = "teste2@gmail.com";
+    await sut.getRunningAuctions({ authtoken: "authToken", userid });
+    Sinon.assert.calledWith(spy, {
+      endpoint: `api/v1/auction/salesman/${userid}/_all/bidding-data`,
+      headers: {
+        accept: "application/json",
+        authtoken: "authToken",
+        userid: "teste2@gmail.com",
+      },
+    });
   });
   it("should call the get method with correct request headers", async () => {
     const { sut, httpClient } = makeSut();
@@ -88,16 +102,16 @@ describe("CarOnSaleClientApi", () => {
       statusCode: 200,
       data: auctionResponse,
     });
-    const userId = "teste2@gmail.com";
+    const userid = "test2@gmail.com";
     const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
+      endpoint: `api/v1/auction/salesman/${userid}/_all/bidding-data`,
       headers: {
         accept: "application/json",
-        authtoken: "token",
-        userid: userId,
+        authtoken: "authToken",
+        userid,
       },
     };
-    await sut.getRunningAuctions(request);
+    await sut.getRunningAuctions({ authtoken: "authToken", userid });
     Sinon.assert.calledWith(spy, request);
   });
   it("Should return a correct the number of auctions if there is 1 auction", async () => {
@@ -107,16 +121,11 @@ describe("CarOnSaleClientApi", () => {
       statusCode: 200,
       data: auctionResponse,
     });
-    const userId = "teste2@gmail.com";
-    const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-      headers: {
-        accept: "application/json",
-        authtoken: "token",
-        userid: userId,
-      },
-    };
-    const response = await sut.getRunningAuctions(request);
+    const userid = "teste2@gmail.com";
+    const response = await sut.getRunningAuctions({
+      authtoken: "authToken",
+      userid,
+    });
     assert.strictEqual(response.auctionsAmount, 1);
   });
   it("Should return a correct the number of auctions if there is 2 auction", async () => {
@@ -172,16 +181,11 @@ describe("CarOnSaleClientApi", () => {
         },
       ],
     });
-    const userId = "teste2@gmail.com";
-    const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-      headers: {
-        accept: "application/json",
-        authtoken: "token",
-        userid: userId,
-      },
-    };
-    const response = await sut.getRunningAuctions(request);
+    const userid = "teste2@gmail.com";
+    const response = await sut.getRunningAuctions({
+      authtoken: "authToken",
+      userid,
+    });
     assert.strictEqual(response.auctionsAmount, 2);
   });
   it("should provide average number of bids on an auctions", async () => {
@@ -237,16 +241,11 @@ describe("CarOnSaleClientApi", () => {
         },
       ],
     });
-    const userId = "teste2@gmail.com";
-    const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-      headers: {
-        accept: "application/json",
-        authtoken: "token",
-        userid: userId,
-      },
-    };
-    const response = await sut.getRunningAuctions(request);
+    const userid = "teste2@gmail.com";
+    const response = await sut.getRunningAuctions({
+      authtoken: "authToken",
+      userid,
+    });
     assert.strictEqual(response.avegareBidsPerAuction, 3);
   });
   it("Should return average bids 0 if there is no bids for a auction", async () => {
@@ -279,16 +278,11 @@ describe("CarOnSaleClientApi", () => {
         },
       ],
     });
-    const userId = "teste2@gmail.com";
-    const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-      headers: {
-        accept: "application/json",
-        authtoken: "token",
-        userid: userId,
-      },
-    };
-    const response = await sut.getRunningAuctions(request);
+    const userid = "teste2@gmail.com";
+    const response = await sut.getRunningAuctions({
+      authtoken: "authToken",
+      userid,
+    });
     assert.strictEqual(response.avegareBidsPerAuction, 0);
   });
   it("Should round number of bids in an auction", async () => {
@@ -344,16 +338,11 @@ describe("CarOnSaleClientApi", () => {
         },
       ],
     });
-    const userId = "teste2@gmail.com";
-    const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-      headers: {
-        accept: "application/json",
-        authtoken: "token",
-        userid: userId,
-      },
-    };
-    const response = await sut.getRunningAuctions(request);
+    const userid = "teste2@gmail.com";
+    const response = await sut.getRunningAuctions({
+      authtoken: "authToken",
+      userid,
+    });
     assert.strictEqual(response.avegareBidsPerAuction, 2);
   });
   it("Should return null if the minimum required is null", async () => {
@@ -386,16 +375,11 @@ describe("CarOnSaleClientApi", () => {
         },
       ],
     });
-    const userId = "teste2@gmail.com";
-    const request: HTTPRequest<User> = {
-      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
-      headers: {
-        accept: "application/json",
-        authtoken: "token",
-        userid: userId,
-      },
-    };
-    const response = await sut.getRunningAuctions(request);
+    const userid = "teste2@gmail.com";
+    const response = await sut.getRunningAuctions({
+      authtoken: "authToken",
+      userid,
+    });
     assert.strictEqual(response.auctions[0].auctionRatioProgress, null);
   });
 });
