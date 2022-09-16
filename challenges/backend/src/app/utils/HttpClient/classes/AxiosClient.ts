@@ -12,6 +12,16 @@ class AxiosClientImpl implements IHTTPClient {
       headers: { "Content-Type": "application/json" },
     });
   }
+  get<R>(request: HTTPRequest): Promise<HTTPResponse<R>> {
+    const { endpoint, headers } = request;
+    const config = {
+      headers: {
+        authtoken: headers?.authtoken || "",
+        userid: headers?.userid || "",
+      },
+    };
+    return this.axios.get(endpoint, config);
+  }
   async put<R, T>(request: HTTPRequest<T>): Promise<HTTPResponse<R>> {
     const { body, endpoint } = request;
     const { status, data } = await this.axios.put(endpoint, body);
