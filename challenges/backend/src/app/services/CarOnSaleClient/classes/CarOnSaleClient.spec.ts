@@ -356,4 +356,46 @@ describe("CarOnSaleClientApi", () => {
     const response = await sut.getRunningAuctions(request);
     assert.strictEqual(response.avegareBidsPerAuction, 2);
   });
+  it("Should return null if the minimum required is null", async () => {
+    const { sut, httpClient } = makeSut();
+    Sinon.stub(httpClient, "get").resolves({
+      statusCode: 200,
+      data: [
+        {
+          uuid: "14dd0028-1e41-428e-8f2e-db071a2a6bdc",
+          state: 2,
+          endingTime: "2022-09-16T15:06:00.000Z",
+          remainingTimeInSeconds: 97759,
+          remainingTimeForInstantPurchaseInSeconds: null,
+          instantPurchasePossibleUntil: null,
+          _fk_uuid_highestBiddingBuyerUser: null,
+          currentHighestBidValue: 95,
+          currentHighestBidValueNet: 0,
+          minimumRequiredAsk: null,
+          minimumRequiredAskNet: null,
+          numBids: 0,
+          amIHighestBidder: false,
+          biddingAgentValue: null,
+          isMinAskReached: false,
+          isCrossBorderNetSale: false,
+          buyerPurchaseFee: 89,
+          buyerCrossBorderProcessingAmount: 0,
+          additionalTaxValue: null,
+          additionalTaxType: 0,
+          additionalTaxExportDiscount: 0,
+        },
+      ],
+    });
+    const userId = "teste2@gmail.com";
+    const request: HTTPRequest<User> = {
+      endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
+      headers: {
+        accept: "application/json",
+        authtoken: "token",
+        userid: userId,
+      },
+    };
+    const response = await sut.getRunningAuctions(request);
+    assert.strictEqual(response.auctions[0].auctionRatioProgress, null);
+  });
 });
