@@ -8,6 +8,8 @@ import { IAuthentication } from "./services/Authentication//interface/IAuthentic
 import { IHTTPClient } from "./utils/HttpClient/interface";
 import { AxiosClientImpl } from "./utils/HttpClient/classes/AxiosClient";
 import env from "env-var";
+import { ICarOnSaleClient } from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
+import { CarOnSaleClientApi } from "./services/CarOnSaleClient/classes/CarOnSaleClient";
 require("dotenv").config();
 
 /*
@@ -21,6 +23,10 @@ const container = new Container({
  * Register dependencies in DI environment.
  */
 container.bind<ILogger>(DependencyIdentifier.LOGGER).to(Logger);
+
+container
+  .bind<ICarOnSaleClient>(DependencyIdentifier.CarOnSaleClient)
+  .to(CarOnSaleClientApi);
 
 container
   .bind<IAuthentication>(DependencyIdentifier.AUTHENTICATION)

@@ -5,23 +5,24 @@ import "reflect-metadata";
 import { IAuthentication } from "./services/Authentication/interface/IAuthentication";
 import env from "env-var";
 import axios, { AxiosError } from "axios";
+import { ICarOnSaleClient } from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
 @injectable()
 export class AuctionMonitorApp {
-  private _authentication: IAuthentication;
   public constructor(
     @inject(DependencyIdentifier.LOGGER) private logger: ILogger,
-    @inject(DependencyIdentifier.AUTHENTICATION) authentication: IAuthentication
-  ) {
-    this._authentication = authentication;
-  }
+    @inject(DependencyIdentifier.AUTHENTICATION)
+    private authentication: IAuthentication,
+    @inject(DependencyIdentifier.CarOnSaleClient)
+    private carOnSaleClient: ICarOnSaleClient
+  ) {}
 
   public async start(): Promise<void> {
     try {
       this.logger.log(`Auction Monitor started.`);
       const email = env.get("COS_USEREMAIL").required().asString();
       const password = env.get("COS_USERPASSWORD").required().asString();
-      const { userId, authenticated } =
-        await this._authentication.authentication({
+      const { userId, authenticated, token } =
+        await this.authentication.authentication({
           email,
           password,
         });
@@ -30,6 +31,16 @@ export class AuctionMonitorApp {
           authenticated ? "authenticated" : "not authenticated"
         }`
       );
+      const auctions = await this.carOnSaleClient.getRunningAuctions({
+        endpoint: `api/v1/auction/salesman/${userId}/_all/bidding-data`,
+        headers: {
+          accept: "application/json",
+          authtoken: token,
+          userid: userId,
+        },
+      });
+      console.log(auctions);
+      process.exit(0);
     } catch (error: any | AxiosError) {
       if (axios.isAxiosError(error)) {
         this.logger.log(
@@ -38,6 +49,7 @@ export class AuctionMonitorApp {
           }, ${JSON.stringify(error.response?.data)}`
         );
       }
+      process.exit(-1);
     }
   }
 }

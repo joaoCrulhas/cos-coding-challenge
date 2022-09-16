@@ -1,15 +1,11 @@
 import assert from "assert";
 import sinon from "sinon";
-import { HTTPRequest, IHTTPClient } from "../../../utils/HttpClient/interface";
+import { AxiosClientImpl } from "../../../utils/HttpClient/classes/AxiosClient";
+import { IHTTPClient } from "../../../utils/HttpClient/interface";
 
 import { ILogger } from "../../Logger/interface/ILogger";
 import { IAuthentication } from "../interface/IAuthentication";
 import { Authentication } from "./Authentication";
-class HttpClientStub implements IHTTPClient {
-  async put<T>(request: HTTPRequest<T>): Promise<any> {
-    return request;
-  }
-}
 
 class LoggerStub implements ILogger {
   log(message: string): void {
@@ -18,7 +14,7 @@ class LoggerStub implements ILogger {
 }
 
 const makeHttpClientStub = () => {
-  const httpClient = new HttpClientStub();
+  const httpClient = new AxiosClientImpl("https://base.com");
   return {
     httpClient,
   };
@@ -50,7 +46,18 @@ describe("Authentication Service", () => {
   });
   it("should call httpClient with correct arguments", async () => {
     const { sut, httpClient } = makeSut();
-    const spy = sinon.spy(httpClient, "put");
+    const spy = sinon.stub(httpClient, "put").resolves({
+      statusCode: 201,
+      data: {
+        token: "e",
+        authenticated: true,
+        userId: "buyer-challenge@caronsale.de",
+        internalUserId: 2324,
+        internalUserUUID: "054d4577-69a0-4e4b-8e5e-975bcf8c62c7",
+        type: "1",
+        privileges: "{SALESMAN_USER}",
+      },
+    });
     await sut.authentication({
       email: "userMailTest@gmail.com",
       password: "any_string",
