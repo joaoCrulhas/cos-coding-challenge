@@ -4,12 +4,12 @@ import {
   averageBidsPerAuction,
   calculateRatioForEachAuction,
 } from "../../../utils/auctions";
-import { HTTPRequest, IHTTPClient } from "../../../utils/HttpClient/interface";
-import { User } from "../../Authentication/entities";
+import { IHTTPClient } from "../../../utils/HttpClient/interface";
 import { Auction } from "../entities";
 import {
   ICarOnSaleClient,
   RunningAuction,
+  RunningAuctionsDTO,
 } from "../interface/ICarOnSaleClient";
 
 @injectable()
@@ -22,10 +22,19 @@ class CarOnSaleClientApi implements ICarOnSaleClient {
     this._httpClient = httpClientFactory();
   }
 
-  async getRunningAuctions(
-    request: HTTPRequest<User>
-  ): Promise<RunningAuction> {
-    const { data } = await this._httpClient.get<Auction[]>(request);
+  async getRunningAuctions({
+    userid,
+    authtoken,
+  }: RunningAuctionsDTO): Promise<RunningAuction> {
+    const endpoint = `api/v1/auction/salesman/${userid}/_all/bidding-data`;
+    const { data } = await this._httpClient.get<Auction[]>({
+      endpoint,
+      headers: {
+        accept: "application/json",
+        authtoken,
+        userid,
+      },
+    });
     return {
       auctionsAmount: data.length,
       avegareBidsPerAuction: averageBidsPerAuction(data),
