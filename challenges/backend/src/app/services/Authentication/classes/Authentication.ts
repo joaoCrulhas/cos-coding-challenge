@@ -23,7 +23,10 @@ class Authentication implements IAuthentication {
     this._logger = logger;
   }
   async authentication(user: UserAuthenticationDTO): Promise<User> {
-    this._logger.log(`Creating a token for user ${user.email}`);
+    this._logger.debug(
+      `Creating a token for user ${user.email}`,
+      `request ${JSON.stringify(user)}`
+    );
     const authenticationRequest: HTTPRequest<UserAuthentication> = {
       endpoint: `${API_ENDPOINTS.TOKEN_GENERATOR}/${user.email}`,
       body: {

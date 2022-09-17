@@ -2,16 +2,9 @@ import assert from "assert";
 import sinon from "sinon";
 import { AxiosClientImpl } from "../../../utils/HttpClient/classes/AxiosClient";
 import { IHTTPClient } from "../../../utils/HttpClient/interface";
-
-import { ILogger } from "../../Logger/interface/ILogger";
+import { Logger } from "../../Logger/classes/Logger";
 import { IAuthentication } from "../interface/IAuthentication";
 import { Authentication } from "./Authentication";
-
-class LoggerStub implements ILogger {
-  log(message: string): void {
-    console.log(message);
-  }
-}
 
 const makeHttpClientStub = () => {
   const httpClient = new AxiosClientImpl("https://base.com");
@@ -24,8 +17,7 @@ const makeSut = (): {
   httpClient: IHTTPClient;
 } => {
   const { httpClient } = makeHttpClientStub();
-
-  const logStub = new LoggerStub();
+  const logStub = new Logger();
   const sut = new Authentication(() => httpClient, logStub);
   return {
     httpClient,
