@@ -4,7 +4,7 @@ import { DependencyIdentifier } from "./DependencyIdentifiers";
 import "reflect-metadata";
 import { IAuthentication } from "./services/Authentication/interface/IAuthentication";
 import env from "env-var";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { ICarOnSaleClient } from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
 @injectable()
 export class AuctionMonitorApp {
@@ -35,16 +35,19 @@ export class AuctionMonitorApp {
         authtoken: token + "1",
         userid: userId,
       });
-      console.log(auctions);
+      this.logger.log(JSON.stringify(auctions));
       process.exit(0);
-    } catch (error: any | AxiosError) {
-      let msg = "";
+    } catch (error: any) {
+      let message = "";
       let stack = "";
       if (axios.isAxiosError(error)) {
-        msg = `${error.message} ${JSON.stringify(error.response?.data)}`;
+        message = `${error.message} ${JSON.stringify(error.response?.data)}`;
         stack = error.message;
       }
-      this.logger.error(msg || error.message, stack || error.stack);
+      this.logger.error(
+        message || error.message,
+        stack || stack || error.starck
+      );
       process.exit(-1);
     }
   }
