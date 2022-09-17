@@ -23,7 +23,10 @@ class Authentication implements IAuthentication {
     this._logger = logger;
   }
   async authentication(user: UserAuthenticationDTO): Promise<User> {
-    this._logger.log(`Creating a token for user ${user.email}`);
+    this._logger.debug(
+      `Creating a token for user ${user.email}`,
+      `request ${JSON.stringify(user)}`
+    );
     const authenticationRequest: HTTPRequest<UserAuthentication> = {
       endpoint: `${API_ENDPOINTS.TOKEN_GENERATOR}/${user.email}`,
       body: {
@@ -31,8 +34,13 @@ class Authentication implements IAuthentication {
         meta: "string",
       },
     };
-    const { data } = await this._httpClient.put<User, UserAuthentication>(
-      authenticationRequest
+    const { data, statusCode } = await this._httpClient.put<
+      User,
+      UserAuthentication
+    >(authenticationRequest);
+    this._logger.debug(
+      `Response to creating user token for ${user.email}`,
+      `${JSON.stringify({ data, statusCode })}`
     );
     return data;
   }

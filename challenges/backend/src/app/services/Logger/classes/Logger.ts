@@ -12,16 +12,16 @@ export class Logger implements ILogger {
     );
   }
   debug(message: string, params?: any): void {
-    console.debug(`[DEBUG]: ${message}`);
-    if (this.enableDetailLog()) {
-      console.debug(`[DEBUG]: ${params}`);
-    }
+    const msg = this.enableDetailLog()
+      ? `[DEBUG]: ${message}, params ${params}`
+      : `[DEBUG]: ${message}`;
+    console.debug(`[DEBUG]: ${msg}`);
   }
   error(message: string, stackTrace: string): void {
-    console.error(`[ERROR]: ${message}`);
-    if (this.enableDetailLog()) {
-      console.error(console.log(`[ERROR-StackTrace]: ${stackTrace}`));
-    }
+    const msg = this.enableDetailLog()
+      ? `[ERROR]: ${message}, stackTrace ${stackTrace}`
+      : `[ERROR]: ${message}`;
+    console.debug(`[ERROR]: ${msg}`);
   }
 
   public log(message: string): void {
