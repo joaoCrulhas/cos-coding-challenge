@@ -1,3 +1,3 @@
 export interface IPrint {
-  print(executionLog: string): void;
+  print(executionLog: string): Promise<void>;
 }

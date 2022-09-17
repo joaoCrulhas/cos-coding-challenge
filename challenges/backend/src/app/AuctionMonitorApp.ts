@@ -35,7 +35,7 @@ export class AuctionMonitorApp {
         authtoken: token,
         userid: userId,
       });
-      this.printResult.print(JSON.stringify(auctions));
+      await this.printResult.print(JSON.stringify(auctions));
       process.exit(0);
     } catch (error: any) {
       let message = "";

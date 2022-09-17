@@ -3,7 +3,6 @@ import { IPrint } from "../interface/IPrint";
 import { writeFile } from "fs/promises";
 import { injectable } from "inversify";
 import path from "path";
-// import path from "path";
 @injectable()
 class PrintFile implements IPrint {
   private fileName: string;
@@ -12,7 +11,6 @@ class PrintFile implements IPrint {
   }
   public async print(executionLog: string): Promise<void> {
     const pathFile = path.join(__dirname, "..", "..", "..", "history");
-    console.log(pathFile);
     await writeFile(`${pathFile}/${this.fileName}.txt`, executionLog);
   }
 }
