@@ -12,7 +12,7 @@ class AxiosClientImpl implements IHTTPClient {
       headers: { "Content-Type": "application/json" },
     });
   }
-  public get<R>(request: HTTPRequest): Promise<HTTPResponse<R>> {
+  public async get<R>(request: HTTPRequest): Promise<HTTPResponse<R>> {
     const { endpoint, headers } = request;
     const config = {
       headers: {
@@ -20,7 +20,11 @@ class AxiosClientImpl implements IHTTPClient {
         userid: headers?.userid || "",
       },
     };
-    return this.axios.get(endpoint, config);
+    const { data, status } = await this.axios.get<R>(endpoint, config);
+    return {
+      statusCode: status,
+      data,
+    };
   }
   public async put<R, T>(request: HTTPRequest<T>): Promise<HTTPResponse<R>> {
     const { body, endpoint } = request;
