@@ -34,10 +34,9 @@ class Authentication implements IAuthentication {
         meta: "string",
       },
     };
-    const { data, statusCode } = await this._httpClient.put<
-      User,
-      UserAuthentication
-    >(authenticationRequest);
+    const { data } = await this._httpClient.put<User, UserAuthentication>(
+      authenticationRequest
+    );
     return data;
   }
 }
