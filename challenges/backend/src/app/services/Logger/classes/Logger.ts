@@ -13,9 +13,10 @@ export class Logger implements ILogger {
     console.debug(`${msg}`);
   }
   public error(message: string, stackTrace: string): void {
-    const msg = this.enableDetailLog()
-      ? `[ERROR]: ${message}, stackTrace ${stackTrace}`
-      : `[ERROR]: ${message}`;
+    const msg =
+      this.enableDetailLog() && stackTrace
+        ? `[ERROR]: ${message}, stackTrace ${stackTrace}`
+        : `[ERROR]: ${message}`;
     console.error(`${msg}`);
   }
 

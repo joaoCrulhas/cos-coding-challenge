@@ -33,6 +33,15 @@ describe("LoggerService", () => {
     Sinon.assert.calledOnce(spy);
     Sinon.assert.calledWith(spy, "[ERROR]: test, stackTrace paramsTEs");
   });
+  it("Should call error with correct arguments if stackTrace is not provided", () => {
+    const spy = Sinon.spy(console, "error");
+    const { sut } = makeSut();
+    const message = "test";
+    sut.error(message);
+    Sinon.assert.calledOnce(spy);
+    Sinon.assert.calledWith(spy, "[ERROR]: test");
+  });
+
   afterEach(() => {
     Sinon.restore();
   });
