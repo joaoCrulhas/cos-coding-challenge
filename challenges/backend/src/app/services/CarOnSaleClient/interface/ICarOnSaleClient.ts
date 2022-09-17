@@ -1,5 +1,3 @@
-import { HTTPRequest } from "../../../utils/HttpClient/interface";
-import { User } from "../../Authentication/entities";
 import { Auction } from "../entities";
 export interface RunningAuction {
   auctionsAmount: number;

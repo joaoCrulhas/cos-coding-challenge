@@ -20,6 +20,6 @@ interface Auction {
   additionalTaxValue?: any;
   additionalTaxType: number;
   additionalTaxExportDiscount: number;
-  auctionRatioProgress?: number | null;
+  auctionRatioProgress?: string | null;
 }
 export { Auction };
