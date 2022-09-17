@@ -32,7 +32,7 @@ export class AuctionMonitorApp {
         }`
       );
       const auctions = await this.carOnSaleClient.getRunningAuctions({
-        authtoken: token + "1",
+        authtoken: token,
         userid: userId,
       });
       this.logger.log(JSON.stringify(auctions));
