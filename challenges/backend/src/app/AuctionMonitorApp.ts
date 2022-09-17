@@ -32,21 +32,19 @@ export class AuctionMonitorApp {
         }`
       );
       const auctions = await this.carOnSaleClient.getRunningAuctions({
-        authtoken: token,
+        authtoken: token + "1",
         userid: userId,
       });
       console.log(auctions);
       process.exit(0);
     } catch (error: any | AxiosError) {
+      let msg = "";
+      let stack = "";
       if (axios.isAxiosError(error)) {
-        this.logger.error(
-          `[ERROR] An Error happen during the script ${
-            error.response?.status
-          }, ${JSON.stringify(error.response?.data)}`,
-          error.stack!
-        );
+        msg = `${error.message} ${JSON.stringify(error.response?.data)}`;
+        stack = error.message;
       }
-      this.logger.error(error.message, error.stack);
+      this.logger.error(msg || error.message, stack || error.stack);
       process.exit(-1);
     }
   }
