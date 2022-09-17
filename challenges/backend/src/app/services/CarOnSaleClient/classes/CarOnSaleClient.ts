@@ -34,7 +34,6 @@ class CarOnSaleClientApi implements ICarOnSaleClient {
     const { data } = await this._httpClient.get<Auction[]>({
       endpoint,
       headers: {
-        accept: "application/json",
         authtoken,
         userid,
       },

@@ -72,7 +72,6 @@ describe("CarOnSaleClientApi", () => {
       Sinon.match({
         endpoint: `api/v1/auction/salesman/${userid}/_all/bidding-data`,
         headers: {
-          accept: "application/json",
           authtoken: "authToken",
           userid,
         },
@@ -90,7 +89,6 @@ describe("CarOnSaleClientApi", () => {
     Sinon.assert.calledWith(spy, {
       endpoint: `api/v1/auction/salesman/${userid}/_all/bidding-data`,
       headers: {
-        accept: "application/json",
         authtoken: "authToken",
         userid: "teste2@gmail.com",
       },
@@ -106,7 +104,6 @@ describe("CarOnSaleClientApi", () => {
     const request: HTTPRequest<User> = {
       endpoint: `api/v1/auction/salesman/${userid}/_all/bidding-data`,
       headers: {
-        accept: "application/json",
         authtoken: "authToken",
         userid,
       },

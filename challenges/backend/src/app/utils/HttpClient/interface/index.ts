@@ -8,7 +8,6 @@ interface IHTTPClient {
   get<R>(request: HTTPRequest): Promise<HTTPResponse<R>>;
 }
 interface AuthHeaders {
-  accept: string;
   authtoken: string;
   userid: string;
 }

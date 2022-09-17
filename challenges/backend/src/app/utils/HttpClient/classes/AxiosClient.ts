@@ -9,20 +9,22 @@ class AxiosClientImpl implements IHTTPClient {
     this.axios = axios.create({
       baseURL,
       timeout: 5000,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
     });
   }
   public async get<R>({
     endpoint,
     headers,
   }: HTTPRequest): Promise<HTTPResponse<R>> {
-    const config = {
+    const { data, status } = await this.axios.get<R>(endpoint, {
       headers: {
         authtoken: headers?.authtoken || "",
         userid: headers?.userid || "",
       },
-    };
-    const { data, status } = await this.axios.get<R>(endpoint, config);
+    });
     return {
       statusCode: status,
       data,
@@ -31,8 +33,14 @@ class AxiosClientImpl implements IHTTPClient {
   public async put<R, T>({
     body,
     endpoint,
+    headers,
   }: HTTPRequest<T>): Promise<HTTPResponse<R>> {
-    const { data, status } = await this.axios.put<R>(endpoint, body);
+    const { data, status } = await this.axios.put<R>(endpoint, body, {
+      headers: {
+        authtoken: headers?.authtoken || "",
+        userid: headers?.userid || "",
+      },
+    });
     return {
       statusCode: status,
       data,

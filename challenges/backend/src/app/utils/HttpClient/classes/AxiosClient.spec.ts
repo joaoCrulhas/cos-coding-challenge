@@ -92,7 +92,6 @@ describe("Testing the AxiosClientIntegration", () => {
     const request: HTTPRequest = {
       endpoint,
       headers: {
-        accept: "application/json",
         authtoken: "token",
         userid: "test@gmail.com",
       },
@@ -125,6 +124,84 @@ describe("Testing the AxiosClientIntegration", () => {
           additionalTaxExportDiscount: 0,
         },
       ],
+    });
+  });
+  it("Should call with empty userId and authToken for publics endpoints", async () => {
+    const { sut } = makeSut();
+    const endpoint =
+      "/api/v1/authentication/buyer-challenge%40caronsale.de/registered";
+    nock("https://api-core-dev.caronsale.de", {
+      encodedQueryParams: true,
+    })
+      .get(endpoint)
+      .reply(204);
+    const response = await sut.get({
+      endpoint,
+    });
+    assert.strictEqual(response.statusCode, 204);
+  });
+
+  it("Should call with empty userId and authToken for publics endpoints", async () => {
+    const { sut } = makeSut();
+    const endpoint =
+      "/api/v1/authentication/buyer-challenge%40caronsale.de/registered";
+    nock("https://api-core-dev.caronsale.de", {
+      encodedQueryParams: true,
+    })
+      .get(endpoint)
+      .reply(204);
+    const response = await sut.get({
+      endpoint,
+    });
+    assert.strictEqual(response.statusCode, 204);
+  });
+
+  it("Should add the auth headers when a protected route is called", async () => {
+    const { sut } = makeSut();
+    const endpoint =
+      "/api/v1/auction/salesman/buyer-challenge%40caronsale.de/14dd0028-1e41-428e-8f2e-db071a2a6bdc";
+    nock("https://api-core-dev.caronsale.de", {
+      encodedQueryParams: true,
+    })
+      .put(endpoint)
+      .reply(201, {
+        value: 0,
+        valueNet: 0,
+        isHotBid: true,
+        isAutoBid: true,
+        clientCategory: 0,
+        _fk_uuid_auction: "string",
+        _fk_uuid_biddingBuyer: "string",
+        _fk_uuid_triggeringBuyer: "string",
+        id: 0,
+        createdAt: "2022-09-17T18:12:46.749Z",
+        updatedAt: "2022-09-17T18:12:46.749Z",
+        deletedAt: "2022-09-17T18:12:46.749Z",
+        uuid: "string",
+      });
+    const response = await sut.put({
+      endpoint,
+      headers: {
+        authtoken: "token",
+        userid: "buyer-challenge%40caronsale.de",
+      },
+    });
+
+    assert.strictEqual(response.statusCode, 201);
+    assert.deepStrictEqual(response.data, {
+      value: 0,
+      valueNet: 0,
+      isHotBid: true,
+      isAutoBid: true,
+      clientCategory: 0,
+      _fk_uuid_auction: "string",
+      _fk_uuid_biddingBuyer: "string",
+      _fk_uuid_triggeringBuyer: "string",
+      id: 0,
+      createdAt: "2022-09-17T18:12:46.749Z",
+      updatedAt: "2022-09-17T18:12:46.749Z",
+      deletedAt: "2022-09-17T18:12:46.749Z",
+      uuid: "string",
     });
   });
 });
