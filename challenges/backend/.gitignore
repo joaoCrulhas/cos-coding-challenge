@@ -1,3 +1,5 @@
 node_modules
 .env
 src/app/history
+.nyc_output
+coverage
