@@ -39,12 +39,14 @@ export class AuctionMonitorApp {
       process.exit(0);
     } catch (error: any | AxiosError) {
       if (axios.isAxiosError(error)) {
-        this.logger.log(
+        this.logger.error(
           `[ERROR] An Error happen during the script ${
             error.response?.status
-          }, ${JSON.stringify(error.response?.data)}`
+          }, ${JSON.stringify(error.response?.data)}`,
+          error.stack!
         );
       }
+      this.logger.error(error.message, error.stack);
       process.exit(-1);
     }
   }
