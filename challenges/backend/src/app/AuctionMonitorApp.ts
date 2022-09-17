@@ -19,18 +19,15 @@ export class AuctionMonitorApp {
   public async start(): Promise<void> {
     try {
       this.logger.log(`Auction Monitor started.`);
-      const email = env.get("COS_USEREMAIL").required().asString();
-      const password = env.get("COS_USERPASSWORD").required().asString();
-      const { userId, authenticated, token } =
-        await this.authentication.authentication({
-          email,
-          password,
-        });
-      this.logger.log(
-        `The user ${userId} authentication status is ${
-          authenticated ? "authenticated" : "not authenticated"
-        }`
-      );
+      const email =
+        process.env.USEREMAIL || env.get("COS_USEREMAIL").required().asString();
+      const password =
+        process.env.USERPASSWORD ||
+        env.get("COS_USERPASSWORD").required().asString();
+      const { userId, token } = await this.authentication.authentication({
+        email,
+        password,
+      });
       const auctions = await this.carOnSaleClient.getRunningAuctions({
         authtoken: token,
         userid: userId,
