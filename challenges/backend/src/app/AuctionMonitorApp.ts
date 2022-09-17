@@ -6,6 +6,7 @@ import { IAuthentication } from "./services/Authentication/interface/IAuthentica
 import env from "env-var";
 import axios from "axios";
 import { ICarOnSaleClient } from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
+import { IPrint } from "./services/printer/interface/IPrint";
 @injectable()
 export class AuctionMonitorApp {
   constructor(
@@ -13,7 +14,9 @@ export class AuctionMonitorApp {
     @inject(DependencyIdentifier.AUTHENTICATION)
     private authentication: IAuthentication,
     @inject(DependencyIdentifier.CarOnSaleClient)
-    private carOnSaleClient: ICarOnSaleClient
+    private carOnSaleClient: ICarOnSaleClient,
+    @inject(DependencyIdentifier.Printer)
+    private printResult: IPrint
   ) {}
 
   public async start(): Promise<void> {
@@ -32,7 +35,7 @@ export class AuctionMonitorApp {
         authtoken: token,
         userid: userId,
       });
-      this.logger.log(JSON.stringify(auctions));
+      this.printResult.print(JSON.stringify(auctions));
       process.exit(0);
     } catch (error: any) {
       let message = "";
