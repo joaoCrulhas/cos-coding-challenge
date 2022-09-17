@@ -38,10 +38,6 @@ class Authentication implements IAuthentication {
       User,
       UserAuthentication
     >(authenticationRequest);
-    this._logger.debug(
-      `Response to creating user token for ${user.email}`,
-      `${JSON.stringify({ data, statusCode })}`
-    );
     return data;
   }
 }
