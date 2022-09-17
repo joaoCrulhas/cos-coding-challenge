@@ -42,6 +42,15 @@ describe("LoggerService", () => {
     Sinon.assert.calledWith(spy, "[ERROR]: test");
   });
 
+  it("Should call log with correct message", () => {
+    const spy = Sinon.spy(console, "log");
+    const { sut } = makeSut();
+    const message = "test";
+    sut.log(message);
+    Sinon.assert.calledOnce(spy);
+    Sinon.assert.calledWith(spy, "[LOG]: test");
+  });
+
   afterEach(() => {
     Sinon.restore();
   });
