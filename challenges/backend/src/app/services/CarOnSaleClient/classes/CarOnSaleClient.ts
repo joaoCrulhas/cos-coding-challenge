@@ -1,5 +1,6 @@
 import { inject, injectable } from "inversify";
 import { DependencyIdentifier } from "../../../DependencyIdentifiers";
+import { API_ENDPOINTS } from "../../../utils/ApiEndpoints";
 import {
   averageBidsPerAuction,
   calculateRatioForEachAuction,
@@ -26,7 +27,10 @@ class CarOnSaleClientApi implements ICarOnSaleClient {
     userid,
     authtoken,
   }: RunningAuctionsDTO): Promise<RunningAuction> {
-    const endpoint = `api/v1/auction/salesman/${userid}/_all/bidding-data`;
+    const endpoint = API_ENDPOINTS.AUCTION_BIDDING.replace(
+      "{customerId}",
+      userid
+    );
     const { data } = await this._httpClient.get<Auction[]>({
       endpoint,
       headers: {
