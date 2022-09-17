@@ -6,9 +6,10 @@ import env from "env-var";
 @injectable()
 export class Logger implements ILogger {
   public debug(message: string, params?: any): void {
-    const msg = this.enableDetailLog()
-      ? `[DEBUG]: ${message}, params ${params}`
-      : `[DEBUG]: ${message}`;
+    const msg =
+      this.enableDetailLog() && params
+        ? `[DEBUG]: ${message}, params ${params}`
+        : `[DEBUG]: ${message}`;
     console.debug(`${msg}`);
   }
   public error(message: string, stackTrace: string): void {
