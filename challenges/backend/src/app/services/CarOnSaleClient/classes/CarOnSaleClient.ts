@@ -23,7 +23,7 @@ class CarOnSaleClientApi implements ICarOnSaleClient {
     this._httpClient = httpClientFactory();
   }
 
-  async getRunningAuctions({
+  public async getRunningAuctions({
     userid,
     authtoken,
   }: RunningAuctionsDTO): Promise<RunningAuction> {

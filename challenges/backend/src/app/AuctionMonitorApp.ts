@@ -8,7 +8,7 @@ import axios from "axios";
 import { ICarOnSaleClient } from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
 @injectable()
 export class AuctionMonitorApp {
-  public constructor(
+  constructor(
     @inject(DependencyIdentifier.LOGGER) private logger: ILogger,
     @inject(DependencyIdentifier.AUTHENTICATION)
     private authentication: IAuthentication,

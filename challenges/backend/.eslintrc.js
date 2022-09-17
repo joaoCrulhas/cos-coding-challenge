@@ -78,7 +78,8 @@ module.exports = {
       {
         accessibility: "explicit",
         overrides: {
-          constructors: "explicit",
+          constructors: "no-public",
+          methods: "explicit",
         },
       },
     ],
@@ -99,7 +100,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-extra-non-null-assertion": "error",
     "@typescript-eslint/no-extra-semi": "error",
-    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-for-in-array": "error",
     "@typescript-eslint/no-implied-eval": "error",
     "@typescript-eslint/no-inferrable-types": "error",
