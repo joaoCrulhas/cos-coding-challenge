@@ -3,6 +3,7 @@ export const DependencyIdentifier = {
   AUTHENTICATION: "authentication",
   HTTPClient: "axiosClient",
   CarOnSaleClient: "carOnSaleClient",
+  Printer: "Printer",
   Factories: {
     CarOnSaleHTTP: "Factory<HTTPClient>",
   },

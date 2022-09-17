@@ -78,7 +78,8 @@ module.exports = {
       {
         accessibility: "explicit",
         overrides: {
-          constructors: "explicit",
+          constructors: "no-public",
+          methods: "explicit",
         },
       },
     ],
@@ -99,7 +100,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-extra-non-null-assertion": "error",
     "@typescript-eslint/no-extra-semi": "error",
-    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-for-in-array": "error",
     "@typescript-eslint/no-implied-eval": "error",
     "@typescript-eslint/no-inferrable-types": "error",
@@ -121,13 +122,13 @@ module.exports = {
     "@typescript-eslint/no-unnecessary-type-constraint": "error",
     "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/no-unsafe-assignment": "error",
-    "@typescript-eslint/no-unsafe-call": "error",
+    "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-return": "error",
     "@typescript-eslint/no-unused-expressions": "error",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/no-var-requires": "error",
+    "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/prefer-as-const": "error",
     "@typescript-eslint/prefer-for-of": "error",
     "@typescript-eslint/prefer-function-type": "error",
@@ -135,7 +136,7 @@ module.exports = {
     "@typescript-eslint/quotes": ["off", "single"],
     "@typescript-eslint/require-await": "error",
     "@typescript-eslint/restrict-plus-operands": "error",
-    "@typescript-eslint/restrict-template-expressions": "error",
+    "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/triple-slash-reference": [
       "error",
       {

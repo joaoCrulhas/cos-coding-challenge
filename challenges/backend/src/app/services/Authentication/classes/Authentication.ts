@@ -22,7 +22,7 @@ class Authentication implements IAuthentication {
     this._httpClient = httpClientFactory();
     this._logger = logger;
   }
-  async authentication(user: UserAuthenticationDTO): Promise<User> {
+  public async authentication(user: UserAuthenticationDTO): Promise<User> {
     this._logger.debug(
       `Creating a token for user ${user.email}`,
       `request ${JSON.stringify(user)}`

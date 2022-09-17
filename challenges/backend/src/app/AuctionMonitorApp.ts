@@ -6,36 +6,36 @@ import { IAuthentication } from "./services/Authentication/interface/IAuthentica
 import env from "env-var";
 import axios from "axios";
 import { ICarOnSaleClient } from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
+import { IPrint } from "./services/printer/interface/IPrint";
 @injectable()
 export class AuctionMonitorApp {
-  public constructor(
+  constructor(
     @inject(DependencyIdentifier.LOGGER) private logger: ILogger,
     @inject(DependencyIdentifier.AUTHENTICATION)
     private authentication: IAuthentication,
     @inject(DependencyIdentifier.CarOnSaleClient)
-    private carOnSaleClient: ICarOnSaleClient
+    private carOnSaleClient: ICarOnSaleClient,
+    @inject(DependencyIdentifier.Printer)
+    private printResult: IPrint
   ) {}
 
   public async start(): Promise<void> {
     try {
       this.logger.log(`Auction Monitor started.`);
-      const email = env.get("COS_USEREMAIL").required().asString();
-      const password = env.get("COS_USERPASSWORD").required().asString();
-      const { userId, authenticated, token } =
-        await this.authentication.authentication({
-          email,
-          password,
-        });
-      this.logger.log(
-        `The user ${userId} authentication status is ${
-          authenticated ? "authenticated" : "not authenticated"
-        }`
-      );
+      const email =
+        process.env.USEREMAIL || env.get("COS_USEREMAIL").required().asString();
+      const password =
+        process.env.USERPASSWORD ||
+        env.get("COS_USERPASSWORD").required().asString();
+      const { userId, token } = await this.authentication.authentication({
+        email,
+        password,
+      });
       const auctions = await this.carOnSaleClient.getRunningAuctions({
         authtoken: token,
         userid: userId,
       });
-      this.logger.log(JSON.stringify(auctions));
+      await this.printResult.print(JSON.stringify(auctions));
       process.exit(0);
     } catch (error: any) {
       let message = "";

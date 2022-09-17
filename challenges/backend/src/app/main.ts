@@ -10,6 +10,8 @@ import { AxiosClientImpl } from "./utils/HttpClient/classes/AxiosClient";
 import env from "env-var";
 import { ICarOnSaleClient } from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
 import { CarOnSaleClientApi } from "./services/CarOnSaleClient/classes/CarOnSaleClient";
+import { IPrint } from "./services/printer/interface/IPrint";
+import { PrintFile } from "./services/printer/classes/PrintInFile";
 require("dotenv").config();
 
 /*
@@ -23,6 +25,8 @@ const container = new Container({
  * Register dependencies in DI environment.
  */
 container.bind<ILogger>(DependencyIdentifier.LOGGER).to(Logger);
+
+container.bind<IPrint>(DependencyIdentifier.Printer).to(PrintFile);
 
 container
   .bind<ICarOnSaleClient>(DependencyIdentifier.CarOnSaleClient)
