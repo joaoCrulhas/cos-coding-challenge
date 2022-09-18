@@ -20,6 +20,15 @@ interface Auction {
   additionalTaxValue?: any;
   additionalTaxType: number;
   additionalTaxExportDiscount: number;
-  auctionRatioProgress?: string | null;
+  // auctionRatioProgress?: string | null;
 }
-export { Auction };
+
+interface NormalizedAuction {
+  uuid: string;
+  state: number;
+  endingTime: string;
+  auctionRatioProgress?: string | null;
+  currentHighestBidValue: number;
+  minimumRequiredAsk: number;
+}
+export { NormalizedAuction, Auction };

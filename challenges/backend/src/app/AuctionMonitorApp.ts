@@ -36,6 +36,7 @@ export class AuctionMonitorApp {
         userid: userId,
       });
       await this.printResult.print(JSON.stringify(auctions));
+      this.logger.log(JSON.stringify(auctions));
       this.logger.log(`Auction Monitor finished.`);
       process.exit(0);
     } catch (error: any) {

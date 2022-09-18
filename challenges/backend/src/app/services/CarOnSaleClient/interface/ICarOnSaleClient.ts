@@ -1,8 +1,8 @@
-import { Auction } from "../entities";
+import { NormalizedAuction } from "../entities";
 export interface RunningAuction {
   auctionsAmount: number;
   avegareBidsPerAuction: number;
-  auctions: Auction[];
+  auctions: NormalizedAuction[];
 }
 /**
  * This service describes an interface to access auction data from the CarOnSale API.
