@@ -60,6 +60,13 @@ describe("LoggerService", () => {
     Sinon.assert.calledOnce(spy);
   });
 
+  it("Should call log table with correct arguments", () => {
+    const spy = Sinon.spy(console, "table");
+    const { sut } = makeSut();
+    const message = ["test"];
+    sut.table(message);
+    Sinon.assert.calledOnce(spy);
+  });
   afterEach(() => {
     Sinon.restore();
   });

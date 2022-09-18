@@ -5,6 +5,9 @@ import "reflect-metadata";
 import env from "env-var";
 @injectable()
 export class Logger implements ILogger {
+  public table(message: any[]): void {
+    console.table(message);
+  }
   public debug(message: string, params?: any): void {
     const msg =
       this.enableDetailLog() && params

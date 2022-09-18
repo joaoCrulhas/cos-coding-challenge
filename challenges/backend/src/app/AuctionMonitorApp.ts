@@ -31,13 +31,15 @@ export class AuctionMonitorApp {
         email,
         password,
       });
-      const auctions = await this.carOnSaleClient.getRunningAuctions({
-        authtoken: token,
-        userid: userId,
-      });
+      const { auctions, auctionsAmount, avegareBidsPerAuction } =
+        await this.carOnSaleClient.getRunningAuctions({
+          authtoken: token,
+          userid: userId,
+        });
       await this.printResult.print(JSON.stringify(auctions));
-      this.logger.log(JSON.stringify(auctions));
-      this.logger.log(`Auction Monitor finished.`);
+      this.logger.log(`Total Auctions = ${auctionsAmount}`);
+      this.logger.log(`Average bids per auction = ${avegareBidsPerAuction}`);
+      this.logger.table(auctions);
       process.exit(0);
     } catch (error: any) {
       let message = "";
