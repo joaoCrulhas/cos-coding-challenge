@@ -3,3 +3,4 @@ node_modules
 src/app/history
 .nyc_output
 coverage
+dist/
