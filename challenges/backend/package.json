@@ -4,6 +4,7 @@
   "description": "CarOnSale Backend Coding Challenge",
   "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
     "coverage": "nyc --reporter=lcov npm run test",
     "lint": "eslint --fix",
     "start": "npx ts-node src/app/main.ts",

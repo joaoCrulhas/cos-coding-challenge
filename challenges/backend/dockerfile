@@ -1,0 +1,25 @@
+FROM node:16
+
+RUN mkdir -p /usr/src/app/
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+ENV COS_BASE_URL=${COS_BASE_URL}
+ENV COS_USEREMAIL=${COS_USEREMAIL}
+ENV COS_USERPASSWORD=${COS_USERPASSWORD}
+ENV APP_ENV=${APP_ENV}
+ENV APP_DEBUG=true
+
+RUN npm install
+
+COPY . .
+
+
+RUN npm test
+
+RUN npm run build
+
+RUN cd /usr/src/app/dist && mkdir history
+
+CMD ["sh","-c","node ./dist/main.js"]

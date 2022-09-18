@@ -7,11 +7,11 @@ import { AuctionMonitorApp } from "./AuctionMonitorApp";
 import { IAuthentication } from "./services/Authentication//interface/IAuthentication";
 import { IHTTPClient } from "./utils/HttpClient/interface";
 import { AxiosClientImpl } from "./utils/HttpClient/classes/AxiosClient";
-import env from "env-var";
 import { ICarOnSaleClient } from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
 import { CarOnSaleClientApi } from "./services/CarOnSaleClient/classes/CarOnSaleClient";
 import { IPrint } from "./services/printer/interface/IPrint";
 import { PrintFile } from "./services/printer/classes/PrintInFile";
+import { API_ENDPOINTS } from "./utils/ApiEndpoints";
 require("dotenv").config();
 
 /*
@@ -35,7 +35,7 @@ container
 container
   .bind<IAuthentication>(DependencyIdentifier.AUTHENTICATION)
   .to(Authentication);
-const baseUrl = env.get("COS_BASE_URL").required(true).asString();
+const baseUrl = API_ENDPOINTS.BASE_URL;
 
 container
   .bind<interfaces.Factory<IHTTPClient>>(
