@@ -38,3 +38,14 @@ Welcome to the CarOnSale backend coding challenge.
 
 To run this project some packages was installed, like sinon and nock for tests.
 The current project was using tslint, and this package is outdated, so the project was migrated to eslint.
+
+# Running the project
+
+The easiest way to run the project is install docker in your machine and run two commands.
+
+```
+docker build . -t caronsale/node
+docker run  -it --env-file ./.env caronsale/node
+```
+
+Pay attention in your .env file
