@@ -1,3 +1,8 @@
 1) AuthenticationService
     - Should create a token based on email/password
     - AC: Based on a valid email and password generate a valid token.
+
+2) Docker
+    docker build . -t caronsale/node
+    docker run  -it --env-file ./.env caronsale/node
+    
