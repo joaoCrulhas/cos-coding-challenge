@@ -49,3 +49,7 @@ docker run  -it --env-file ./.env caronsale/node
 ```
 
 Pay attention in your .env file
+
+If you want provide another user than is not provided in your .env file you should run
+
+> docker run -it --env USEREMAIL=test@gmail.com --env PASSWORD=x --env-file ./.env caronsale/node
