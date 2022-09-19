@@ -22,4 +22,4 @@ RUN npm run build
 
 RUN cd /usr/src/app/dist && mkdir history
 
-CMD ["sh","-c","node ./dist/main.js"]
+CMD ["sh","-c","USEREMAIL=${USEREMAIL} USERPASSWORD=${USERPASSWORD} node ./dist/main.js"]
